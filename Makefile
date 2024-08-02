@@ -11,8 +11,8 @@ clean:
 
 .PHONY: run/server
 run/server:
-	go run ./server/cmd/main.go
+	go run ./server/main.go
 
 .PHONY: run/client
 run/client:
-	go run ./client/cmd/main.go
+	go run ./client/main.go

@@ -53,7 +53,7 @@ func (s *ContactController) AddContact(ctx echo.Context) error {
 
 	controller.contacts[_id] = response
 
-	return ctx.JSON(http.StatusOK, response)
+	return ctx.JSON(http.StatusCreated, response)
 }
 
 func (s *ContactController) DeleteContactById(ctx echo.Context, id string) error {
