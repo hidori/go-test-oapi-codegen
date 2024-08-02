@@ -1,0 +1,7 @@
+curl -s -X GET 'http://localhost:8080/contacts' | jq
+
+curl -s -X GET 'http://localhost:8080/contacts/xxx' | jq
+
+curl -s -X POST 'http://localhost:8080/contacts' -H 'Content-Type: application/json' -d '{"familyName":"SHIBUKI", "firstName":"HIROAKI","PhoneNumber":"09012345678"}' | jq
+
+curl -s -X DELETE 'http://localhost:8080/contacts/xxx' | jq

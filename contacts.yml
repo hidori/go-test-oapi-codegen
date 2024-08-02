@@ -1,0 +1,147 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: Contacts API
+servers:
+  - url: http://localhost:18001/v1
+paths:
+  /contacts:
+    get:
+      operationId: getContactList
+      parameters:
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+            example: 0
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            example: 10
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactList'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: addContact
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactValues'
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /contacts/{id}:
+    get:
+      operationId: getContactById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contact'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: deleteContactById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 00000000-0000-0000-0000-000000000000
+      responses:
+        204:
+          description: No Content
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          example: "0000"
+        message:
+          type: string
+          example: "error occurred"
+    ContactList:
+      type: object
+      required:
+        - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contact'
+    Contact:
+      allOf:
+        - $ref: '#/components/schemas/ContactValues'
+        - type: object
+          required:
+            - id
+          properties:
+            id:
+              type: string
+              example: 00000000-0000-0000-0000-000000000000
+    ContactValues:
+      type: object
+      required:
+        - firstName
+        - familyName
+        - phoneNumber
+      properties:
+        firstName:
+          type: string
+          example: Taro
+        familyName:
+          type: string
+          example: Yamada
+        phoneNumber:
+          type: string
+          example: "09012345678"
